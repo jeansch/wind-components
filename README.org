@@ -1,0 +1,26 @@
+#+TITLE: Wind Components
+
+This a *widget* to be used on a Garmin watch (think Garmin IQ).
+
+* Purpose of the widget
+
+The widget can help you to estimate the wind components (headwind & cross wind).
+
+- Start the widget
+- Push *select* to enter to wind settings
+- Set the wind speed (then *select*)
+- Set the wind direction (then *back*)
+- Align your watch to the direction you want to check for wind components
+- Read the values (X for crosswind, H for headwind)
+
+/If you got wind force and direction from METAR, think about the magnetic declination/
+
+* Install
+
+** Using your phone
+You can use the Garmin applications from your phone (Garmin Connect or Connect IQ).
+
+** Using you computer
+
+You can checkout the sources using GIT and build WindComponents.prg yourself.
+When it's done, just upload it on your Garmin watch plugged as USB storage in /Garmin/apps.
