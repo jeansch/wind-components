@@ -1,0 +1,6 @@
+<resources>
+    <string id="AppName">WindComponents</string>
+    <bitmap id="LauncherIcon" filename="icon.png" />
+    <string id="wind_dir">Wind dir:</string>
+    <string id="wind_force">Wind force:</string>
+</resources>
