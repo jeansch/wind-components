@@ -29,10 +29,10 @@ class WindPicker extends WatchUi.Picker {
         :color=>Graphics.COLOR_WHITE});
     // hidden (default would be 'OK' white)
     var confirm = new WatchUi.Text({
-        :text=>"",
+        :text=>"OK",
         :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
-        :locY=>WatchUi.LAYOUT_VALIGN_CENTER,
-        :color=>Graphics.COLOR_BLACK});
+        :locY=>WatchUi.LAYOUT_VALIGN_TOP,
+        :color=>Graphics.COLOR_GREEN});
     var factories = new [1];
     factories[0] = new NumberFactory(0, mode ? 359 : 100,
                                      1, {:font=>Graphics.FONT_MEDIUM});

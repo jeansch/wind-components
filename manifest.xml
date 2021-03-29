@@ -4,7 +4,7 @@
                   name="@Strings.AppName"
                   minSdkVersion="1.3.0"
                   type="widget"
-                  version="0.2.0">
+                  version="0.2.1">
     <iq:products>
       <iq:product id="venu"/>
       <iq:product id="fenix5s"/>
