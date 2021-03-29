@@ -15,6 +15,9 @@
 /* along with this program; if not, write to the Free Software Foundation, */
 /* Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA */
 
+
+// round watches: grep round- bin/default.jungle | grep -v ^round | awk '{print $1}'
+
 using Toybox.WatchUi;
 
 
@@ -25,51 +28,13 @@ class WindComponentsDelegate extends WatchUi.BehaviorDelegate {
   }
 
   function onSelect() {
-    WatchUi.pushView(new WindComponentsSetWindView(),
-                     new WindComponentsSetWindDelegate(),
-                     WatchUi.SLIDE_IMMEDIATE);
+    onMenu();
+  }
+
+  function onMenu() {
+    WatchUi.pushView(new WindPicker(0), new WindPickerDelegate(0), WatchUi.SLIDE_IMMEDIATE);
+    WatchUi.pushView(new WindPicker(1), new WindPickerDelegate(1) , WatchUi.SLIDE_IMMEDIATE);
     return true;
   }
+
 }
-
-
-var set_wind_mode = 0;
-
-
-class WindComponentsSetWindDelegate extends WatchUi.BehaviorDelegate {
-
-  function initialize() {
-    BehaviorDelegate.initialize();
-  }
-
-  function onSelect() {
-    set_wind_mode = !set_wind_mode;
-    WatchUi.requestUpdate();
-    return true;
-  }
-
-  function onPreviousPage() {
-    if (set_wind_mode) {
-      wind_dir += 10;
-      wind_dir = wind_dir == 370 ? 10: wind_dir;
-    } else  {
-      wind_force += 5;
-    }
-    WatchUi.requestUpdate();
-    return true;
-  }
-
-  function onNextPage() {
-    if (set_wind_mode) {
-      wind_dir -= 10;
-      wind_dir = wind_dir == -10 ? 350: wind_dir;
-    } else  {
-      wind_force -= 5;
-      wind_force = wind_force < 0 ? 0: wind_force;
-    }
-    WatchUi.requestUpdate();
-    return true;
-  }
-}
-
-// round watches: grep round- bin/default.jungle | grep -v ^round | awk '{print $1}'

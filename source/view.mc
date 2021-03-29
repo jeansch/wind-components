@@ -15,21 +15,22 @@
 /* along with this program; if not, write to the Free Software Foundation, */
 /* Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA */
 
-using Toybox.WatchUi as Ui;
+using Toybox.WatchUi;
 using Toybox.Timer;
-using Toybox.Graphics as Gfx;
-using Toybox.System;
+using Toybox.Graphics;
 using Toybox.Math;
 
 
-class WindComponentsLib extends Ui.View {
+class WindComponentsView extends WatchUi.View {
+
+  var timer;
   var cx;
   var cy;
   var radius;
   var size;
 
   function initialize() {
-    Ui.View.initialize();
+    WatchUi.View.initialize();
   }
 
   function onLayout(dc) {
@@ -45,15 +46,15 @@ class WindComponentsLib extends Ui.View {
   }
 
   function draw_arcs(dc, pw) {
-    dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     dc.setPenWidth(pw);
-    dc.drawArc(cx, cy, radius, Gfx.ARC_CLOCKWISE, 250, 110);
-    dc.drawArc(cx, cy, radius, Gfx.ARC_CLOCKWISE, 70, 290);
+    dc.drawArc(cx, cy, radius, Graphics.ARC_CLOCKWISE, 250, 110);
+    dc.drawArc(cx, cy, radius, Graphics.ARC_CLOCKWISE, 70, 290);
   }
 
-  function draw_wind_arrow(dc, pw, wind_arrow, wind_force) {
+  function draw_wind_arrow(dc, pw, color, wind_arrow, wind_force) {
     dc.setPenWidth(pw);
-    dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
+    dc.setColor(color, Graphics.COLOR_TRANSPARENT);
     var arrow_end = p2c(cx, cy, wind_arrow * (Math.PI / 180),
                         radius - 2 * (radius / 10));
     var arrow_start = p2c(cx, cy, wind_arrow * (Math.PI / 180),
@@ -71,16 +72,7 @@ class WindComponentsLib extends Ui.View {
       barb_force -= 10;
     }
   }
-}
 
-
-class WindComponentsView extends WindComponentsLib {
-
-  var timer;
-
-  function initialize() {
-    WindComponentsLib.initialize();
-  }
 
   function onShow() {
     timer = new Timer.Timer();
@@ -88,7 +80,7 @@ class WindComponentsView extends WindComponentsLib {
   }
 
   function timerCallback() {
-    Ui.requestUpdate();
+    WatchUi.requestUpdate();
   }
 
   function onHide() {
@@ -103,23 +95,23 @@ class WindComponentsView extends WindComponentsLib {
   }
 
   function components(dc, heading) {
-    dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
     dc.clear();
     draw_arcs(dc, 2);
     // Runway background
-    dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
+    dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
     dc.fillRectangle(size / 2 - (size / 10), 0,  2 * (size / 10), size);
     // Heading
     var top = heading * 180 / Math.PI;
-    dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
-    dc.drawText(cx, size / 16, Gfx.FONT_TINY,
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(cx, size / 16, Graphics.FONT_TINY,
                 (top).format("%03d") + "°",
-                Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER);
+                Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
     // Runway current side
-    dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     dc.drawText(cx, size - 2 * (size / 10),
-                Gfx.FONT_MEDIUM, (top / 10).format("%02d"),
-                Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER);
+                Graphics.FONT_MEDIUM, (top / 10).format("%02d"),
+                Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
     dc.fillRectangle(size / 2 - (size / 100) - 3 * (size / 100),
                      2 * (size / 100) + size - (size / 10) - (size / 20),
                      2 * (size / 100), size / 10);
@@ -134,11 +126,11 @@ class WindComponentsView extends WindComponentsLib {
     if (bottom > 359) {
       bottom = top - 180;
     }
-    dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
     dc.drawText(cx, size / 10 + 2 * (size / 10),
-                Gfx.FONT_TINY,
+                Graphics.FONT_TINY,
                 (bottom / 10).format("%02d"),
-                Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER);
+                Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     dc.fillRectangle(size / 2 - (size / 100) - 3 * (size / 100),
                      2 * (size / 10) - (size / 20),
                      2 * (size / 100), size / 10);
@@ -149,53 +141,26 @@ class WindComponentsView extends WindComponentsLib {
                      2 * (size / 10) - (size / 20),
                      2 * (size / 100), size / 10);
     var wind_arrow = top - wind_dir;
+    var hspd = (wind_force * (Math.cos(wind_arrow * Math.PI / 180)));
     wind_arrow = wind_arrow < 0 ? wind_arrow + 360 : wind_arrow;
-    draw_wind_arrow(dc, 2, wind_arrow, wind_force);
+    draw_wind_arrow(dc, 2, hspd < 0 ? Graphics.COLOR_RED: Graphics.COLOR_BLACK,
+                    wind_arrow, wind_force);
     var xspd = (wind_force * (Math.sin(wind_arrow * Math.PI / 180)));
     xspd = xspd < 0 ? -xspd : xspd;
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
     dc.drawText((wind_arrow > 180 ? 0 : cx + (size / 16)) + 1 * (size / 20),
                 cy - (size / 20) ,
-                Gfx.FONT_SMALL,
+                Graphics.FONT_SMALL,
                 "X: " + xspd.format("%0.1f"),
-                Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
-    var hspd = (wind_force * (Math.cos(wind_arrow * Math.PI / 180)));
+                Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
+
     if (hspd < 0) {
-      dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_TRANSPARENT);
+      dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
     }
     dc.drawText((wind_arrow > 180 ? 0 : cx + (size / 16)) + 1 * (size / 20),
                 cy + (size / 20) ,
-                Gfx.FONT_SMALL,
+                Graphics.FONT_SMALL,
                 "H: " + hspd.format("%0.1f"),
-                Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
-  }
-}
-
-class WindComponentsSetWindView extends WindComponentsLib {
-
-  var wind_dir_str = null;
-  var wind_force_str = null;
-
-  function initialize() {
-    WindComponentsLib.initialize();
-  }
-
-  function onLayout(dc) {
-    WindComponentsLib.onLayout(dc);
-    wind_dir_str = WatchUi.loadResource(Rez.Strings.wind_dir);
-    wind_force_str = WatchUi.loadResource(Rez.Strings.wind_force);
-  }
-
-  function onUpdate(dc) {
-    dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
-    dc.clear();
-    draw_arcs(dc, 2);
-    var wind_arrow = -wind_dir;
-    wind_arrow = wind_arrow < 0 ? wind_arrow + 360 : wind_arrow;
-    draw_wind_arrow(dc, 2, wind_arrow, wind_force);
-    dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
-    dc.drawText(cx, cy, Gfx.FONT_LARGE,
-                (set_wind_mode ? wind_dir_str : wind_force_str) + " " +
-                (set_wind_mode ? wind_dir : wind_force).format("%d"),
-                Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER);
+                Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
   }
 }

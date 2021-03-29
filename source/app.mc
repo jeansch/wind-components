@@ -15,12 +15,12 @@
 /* along with this program; if not, write to the Free Software Foundation, */
 /* Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA */
 
-using Toybox.Application as App;
+using Toybox.Application;
 
 var wind_dir = 0;
 var wind_force = 0;
 
-class WindComponents extends App.AppBase {
+class WindComponents extends Application.AppBase {
 
   function initialize() {
     AppBase.initialize();
