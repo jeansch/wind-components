@@ -20,7 +20,6 @@
 
 using Toybox.WatchUi;
 
-
 class WindComponentsDelegate extends WatchUi.BehaviorDelegate {
 
   function initialize() {
@@ -33,7 +32,7 @@ class WindComponentsDelegate extends WatchUi.BehaviorDelegate {
 
   function onMenu() {
     WatchUi.pushView(new WindPicker(0), new WindPickerDelegate(0), WatchUi.SLIDE_IMMEDIATE);
-    WatchUi.pushView(new WindPicker(1), new WindPickerDelegate(1) , WatchUi.SLIDE_IMMEDIATE);
+    WatchUi.pushView(new WindPicker(1), new WindPickerDelegate(1), WatchUi.SLIDE_IMMEDIATE);
     return true;
   }
 

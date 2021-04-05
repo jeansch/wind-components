@@ -18,6 +18,7 @@
 
 using Toybox.Graphics;
 using Toybox.WatchUi;
+using Toybox.Application.Storage;
 
 class WindPicker extends WatchUi.Picker {
 
@@ -27,7 +28,6 @@ class WindPicker extends WatchUi.Picker {
         :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
         :locY=>WatchUi.LAYOUT_VALIGN_BOTTOM,
         :color=>Graphics.COLOR_WHITE});
-    // hidden (default would be 'OK' white)
     var confirm = new WatchUi.Text({
         :text=>"OK",
         :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
@@ -35,8 +35,9 @@ class WindPicker extends WatchUi.Picker {
         :color=>Graphics.COLOR_GREEN});
     var factories = new [1];
     factories[0] = new NumberFactory(0, mode ? 359 : 100,
-                                     1, {:font=>Graphics.FONT_MEDIUM});
-    Picker.initialize({:title=>title, :pattern=>factories, :confirm=>confirm});
+                                     mode ? 1 : 1, {:font=>Graphics.FONT_MEDIUM});
+    Picker.initialize({:title=>title, :pattern=>factories,
+        :defaults=>[mode ? wind_dir : wind_force], :confirm=>confirm});
   }
 
   function onUpdate(dc) {
@@ -62,8 +63,10 @@ class WindPickerDelegate extends WatchUi.PickerDelegate {
   function onAccept(values) {
     if (_mode) {
       wind_dir = values[0];
+      Storage.setValue(0, wind_dir);
     } else {
       wind_force = values[0];
+      Storage.setValue(1, wind_force);
     }
     WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
   }

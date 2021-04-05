@@ -16,6 +16,7 @@
 /* Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA */
 
 using Toybox.Application;
+using Toybox.Application.Storage;
 
 var wind_dir = 0;
 var wind_force = 0;
@@ -24,6 +25,15 @@ class WindComponents extends Application.AppBase {
 
   function initialize() {
     AppBase.initialize();
+    var v;
+    v = Storage.getValue(0);
+    if (v != null) {
+      wind_dir = v >= 360 ? 0 : v;
+    }
+    v = Storage.getValue(1);
+    if (v != null) {
+      wind_force = v;
+    }
   }
 
   function getInitialView() {
