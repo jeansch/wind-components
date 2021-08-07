@@ -16,23 +16,31 @@
 /* Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA */
 
 using Toybox.Application;
+using Toybox.Graphics;
 using Toybox.Application.Storage;
 
 var wind_dir = 0;
 var wind_force = 0;
+var wind_color = Graphics.COLOR_BLACK;
+var position;
+var no_info_reason = "";
 
 class WindComponents extends Application.AppBase {
 
   function initialize() {
     AppBase.initialize();
     var v;
-    v = Storage.getValue(0);
+    v = Storage.getValue("wind_dir");
     if (v != null) {
       wind_dir = v >= 360 ? 0 : v;
     }
-    v = Storage.getValue(1);
+    v = Storage.getValue("wind_force");
     if (v != null) {
       wind_force = v;
+    }
+    v = Storage.getValue("wind_color");
+    if (v != null) {
+      wind_color = v;
     }
   }
 

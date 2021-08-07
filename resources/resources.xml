@@ -3,4 +3,30 @@
     <bitmap id="LauncherIcon" filename="icon.png" />
     <string id="wind_dir">Wind dir:</string>
     <string id="wind_force">Wind force:</string>
+
+    <properties>
+        <property id="apikey" type="string"></property>
+    </properties>
+
+    <string id="apikey_title">Openweathermap API Key</string>
+
+    <settings>
+        <setting propertyKey="@Properties.apikey" title="@Strings.apikey_title">
+            <settingConfig type="alphaNumeric" />
+        </setting>
+    </settings>
+
+    <string id="menu_title">Set wind</string>
+    <string id="manual_label">Manualy</string>
+    <string id="manual_sublabel">Entering force and speed</string>
+    <string id="auto_label">Automaticaly</string>
+    <string id="auto_sublabel">Using GPS and internet</string>
+
+    <string id="no_wind_information">No wind information</string>
+    <string id="waiting_weather">Waiting for weather</string>
+    <string id="waiting_position">Waiting for position</string>
+    <string id="error_weather">Cannot get weather</string>
+    <string id="error_position">Cannot get position</string>
+    <string id="error_apikey">Bad API key</string>
+
 </resources>

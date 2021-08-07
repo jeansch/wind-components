@@ -20,7 +20,6 @@ using Toybox.Timer;
 using Toybox.Graphics;
 using Toybox.Math;
 
-
 class WindComponentsView extends WatchUi.View {
 
   var timer;
@@ -140,27 +139,38 @@ class WindComponentsView extends WatchUi.View {
     dc.fillRectangle(size / 2 - (size / 100) + 3 * (size / 100),
                      2 * (size / 10) - (size / 20),
                      2 * (size / 100), size / 10);
+
+    if (no_info_reason.length() > 0) {
+      var message = WatchUi.loadResource(Rez.Strings.no_wind_information) +
+        "\n (" + no_info_reason + ")";
+      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
+      dc.fillRectangle(10, cy - 10, dc.getWidth() - 20, 20);
+      dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_WHITE);
+      dc.drawText(cx, cy, Graphics.FONT_SMALL, message, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+      return;
+    }
+
     var wind_arrow = top - wind_dir;
     var hspd = (wind_force * (Math.cos(wind_arrow * Math.PI / 180)));
     wind_arrow = wind_arrow < 0 ? wind_arrow + 360 : wind_arrow;
-    draw_wind_arrow(dc, 2, hspd < 0 ? Graphics.COLOR_RED: Graphics.COLOR_BLACK,
+    draw_wind_arrow(dc, 2, hspd < 0.02 ? Graphics.COLOR_RED: wind_color,
                     wind_arrow, wind_force);
     var xspd = (wind_force * (Math.sin(wind_arrow * Math.PI / 180)));
-    xspd = xspd < 0 ? -xspd : xspd;
-    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+    xspd = xspd < 0.01 ? -xspd : xspd;
+    dc.setColor(wind_color, Graphics.COLOR_TRANSPARENT);
     dc.drawText((wind_arrow > 180 ? 0 : cx + (size / 16)) + 1 * (size / 20),
                 cy - (size / 20) ,
                 Graphics.FONT_SMALL,
-                "X: " + xspd.format("%0.1f"),
+                "X: " + xspd.format("%0.1f") + "KT",
                 Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
 
-    if (hspd < 0) {
+    if (hspd < 0.01) {
       dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
     }
     dc.drawText((wind_arrow > 180 ? 0 : cx + (size / 16)) + 1 * (size / 20),
                 cy + (size / 20) ,
                 Graphics.FONT_SMALL,
-                "H: " + hspd.format("%0.1f"),
+                "H: " + hspd.format("%0.1f") + "KT",
                 Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
   }
 }

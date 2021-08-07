@@ -3,4 +3,31 @@
   <bitmap id="LauncherIcon" filename="icon.png" />
   <string id="wind_dir">Dir vent:</string>
   <string id="wind_force">Force vent:</string>
+
+
+  <properties>
+    <property id="apikey" type="string"></property>
+  </properties>
+
+  <string id="apikey_title">Clef d'API Openweathermap</string>
+
+  <settings>
+    <setting propertyKey="@Properties.apikey" title="@Strings.apikey_title">
+      <settingConfig type="alphaNumeric" />
+    </setting>
+  </settings>
+
+  <string id="menu_title">Paramétrer le vent</string>
+  <string id="manual_label">Manuellement</string>
+  <string id="manual_sublabel">Entrer la force et la vitesse</string>
+  <string id="auto_label">Automatiquement</string>
+  <string id="auto_sublabel">En utilisant le GPS et internet</string>
+
+  <string id="no_wind_information">Pas d'information sur le vent</string>
+  <string id="waiting_weather">Attente de la météo</string>
+  <string id="waiting_position">Attente de la position</string>
+  <string id="error_weather">Impossible d'obtenir la météo</string>
+  <string id="error_position">Impossible d'obtenir la position</string>
+  <string id="error_apikey">Mauvaise clef d'API</string>
+
 </resources>

@@ -19,12 +19,13 @@
 using Toybox.Graphics;
 using Toybox.WatchUi;
 using Toybox.Application.Storage;
+using Toybox.Application.Properties;
 
 class WindPicker extends WatchUi.Picker {
 
   function initialize(mode) {
     var title = new WatchUi.Text({
-        :text=>mode ? Rez.Strings.wind_dir : Rez.Strings.wind_force,
+        :text=>mode.equals("dir") ? Rez.Strings.wind_dir : Rez.Strings.wind_force,
         :locX=>WatchUi.LAYOUT_HALIGN_CENTER,
         :locY=>WatchUi.LAYOUT_VALIGN_BOTTOM,
         :color=>Graphics.COLOR_WHITE});
@@ -34,10 +35,10 @@ class WindPicker extends WatchUi.Picker {
         :locY=>WatchUi.LAYOUT_VALIGN_TOP,
         :color=>Graphics.COLOR_GREEN});
     var factories = new [1];
-    factories[0] = new NumberFactory(0, mode ? 359 : 100,
-                                     mode ? 1 : 1, {:font=>Graphics.FONT_MEDIUM});
+    factories[0] = new NumberFactory(0, mode.equals("dir") ? 359 : 100,
+                                     mode.equals("dir") ? 1 : 1, {:font=>Graphics.FONT_MEDIUM});
     Picker.initialize({:title=>title, :pattern=>factories,
-        :defaults=>[mode ? wind_dir : wind_force], :confirm=>confirm});
+        :defaults=>[mode.equals("dir") ? wind_dir : wind_force], :confirm=>confirm});
   }
 
   function onUpdate(dc) {
@@ -61,14 +62,20 @@ class WindPickerDelegate extends WatchUi.PickerDelegate {
   }
 
   function onAccept(values) {
-    if (_mode) {
+    if (_mode.equals("dir")) {
       wind_dir = values[0];
-      Storage.setValue(0, wind_dir);
+      Storage.setValue("wind_dir", wind_dir);
+      WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+      wind_color = Graphics.COLOR_BLACK;
+      no_info_reason = "";
     } else {
       wind_force = values[0];
-      Storage.setValue(1, wind_force);
+      Storage.setValue("wind_force", wind_force);
+      WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+      WatchUi.pushView(new WindPicker("dir"), new WindPickerDelegate("dir"), WatchUi.SLIDE_IMMEDIATE);
+      //WatchUi.switchToView(new WindPicker("dir"), new WindPickerDelegate("dir"), WatchUi.SLIDE_IMMEDIATE);
     }
-    WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+
   }
 
 }
