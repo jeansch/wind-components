@@ -18,9 +18,9 @@
 
     <string id="menu_title">Set wind</string>
     <string id="manual_label">Manualy</string>
-    <string id="manual_sublabel">Entering force and speed</string>
+    <string id="manual_sublabel">Entering force &amp; speed</string>
     <string id="auto_label">Automaticaly</string>
-    <string id="auto_sublabel">Using GPS and internet</string>
+    <string id="auto_sublabel">Using GPS &amp; internet</string>
 
     <string id="no_wind_information">No wind information</string>
     <string id="waiting_weather">Waiting for weather</string>
@@ -28,5 +28,7 @@
     <string id="error_weather">Cannot get weather</string>
     <string id="error_position">Cannot get position</string>
     <string id="error_apikey">Bad API key</string>
+    <string id="error_set_wind">Please set wind</string>
+    <string id="error_too_old">Information too old</string>
 
 </resources>

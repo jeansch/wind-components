@@ -20,6 +20,7 @@ using Toybox.Graphics;
 using Toybox.WatchUi;
 using Toybox.Application.Storage;
 using Toybox.Application.Properties;
+using Toybox.Time;
 
 class WindPicker extends WatchUi.Picker {
 
@@ -65,12 +66,17 @@ class WindPickerDelegate extends WatchUi.PickerDelegate {
     if (_mode.equals("dir")) {
       wind_dir = values[0];
       Storage.setValue("wind_dir", wind_dir);
+      last_update = Time.now().value();
+      Storage.setValue("last_update", last_update);
       WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
       wind_color = Graphics.COLOR_BLACK;
       no_info_reason = "";
+
     } else {
       wind_force = values[0];
       Storage.setValue("wind_force", wind_force);
+      last_update = Time.now().value();
+      Storage.setValue("last_update", last_update);
       WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
       WatchUi.pushView(new WindPicker("dir"), new WindPickerDelegate("dir"), WatchUi.SLIDE_IMMEDIATE);
       //WatchUi.switchToView(new WindPicker("dir"), new WindPickerDelegate("dir"), WatchUi.SLIDE_IMMEDIATE);

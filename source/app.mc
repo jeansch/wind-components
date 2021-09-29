@@ -18,12 +18,14 @@
 using Toybox.Application;
 using Toybox.Graphics;
 using Toybox.Application.Storage;
+using Toybox.Time;
 
 var wind_dir = 0;
 var wind_force = 0;
 var wind_color = Graphics.COLOR_BLACK;
 var position;
 var no_info_reason = "";
+var last_update = null;
 
 class WindComponents extends Application.AppBase {
 
@@ -41,6 +43,20 @@ class WindComponents extends Application.AppBase {
     v = Storage.getValue("wind_color");
     if (v != null) {
       wind_color = v;
+    }
+    v = Storage.getValue("last_update");
+    if (v != null) {
+      last_update = v;
+    }
+    if (last_update == null) {
+      no_info_reason = WatchUi.loadResource(Rez.Strings.error_set_wind);
+    }
+    if (last_update != null) {
+      var elapsed = Time.now().value() - last_update;
+      // 3600 * 6
+      if (elapsed > 21600) {
+        no_info_reason = WatchUi.loadResource(Rez.Strings.error_too_old);
+      }
     }
   }
 

@@ -25,6 +25,7 @@ using Toybox.Timer;
 using Toybox.Graphics;
 using Toybox.Communications;
 using Toybox.Application.Storage;
+using Toybox.Time;
 
 class WindComponentsDelegate extends WatchUi.BehaviorDelegate {
 
@@ -109,6 +110,8 @@ class MenuDelegate extends WatchUi.Menu2InputDelegate {
       Storage.setValue("wind_dir", wind_dir);
       wind_color = Graphics.COLOR_BLUE;
       Storage.setValue("wind_color", wind_color);
+      last_update = Time.now().value();
+      Storage.setValue("last_update", last_update);
     } else {
       no_info_reason = "API request failed";
     }
@@ -128,7 +131,6 @@ class MenuDelegate extends WatchUi.Menu2InputDelegate {
     } else if ( item.getId().equals("auto") ) {
       no_info_reason = "";
       apikey = Properties.getValue("apikey");
-      System.println("APIKEY: " + apikey);
       if (apikey.length() == 0) {
         no_info_reason = WatchUi.loadResource(Rez.Strings.error_apikey);
         WatchUi.popView(WatchUi.SLIDE_DOWN);

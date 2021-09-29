@@ -146,7 +146,9 @@ class WindComponentsView extends WatchUi.View {
       dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
       dc.fillRectangle(10, cy - 10, dc.getWidth() - 20, 20);
       dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_WHITE);
-      dc.drawText(cx, cy, Graphics.FONT_SMALL, message, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+      dc.drawText(cx, cy, Graphics.FONT_SMALL, message,
+                  Graphics.TEXT_JUSTIFY_CENTER |
+                  Graphics.TEXT_JUSTIFY_VCENTER);
       return;
     }
 
