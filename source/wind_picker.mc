@@ -69,7 +69,7 @@ class WindPickerDelegate extends WatchUi.PickerDelegate {
       last_update = Time.now().value();
       Storage.setValue("last_update", last_update);
       WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-      wind_color = Graphics.COLOR_BLACK;
+      wind_color = FOREGROUND_COLOR;
       no_info_reason = "";
 
     } else {
@@ -77,6 +77,7 @@ class WindPickerDelegate extends WatchUi.PickerDelegate {
       Storage.setValue("wind_force", wind_force);
       last_update = Time.now().value();
       Storage.setValue("last_update", last_update);
+      no_info_reason = "";
       WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
       WatchUi.pushView(new WindPicker("dir"), new WindPickerDelegate("dir"), WatchUi.SLIDE_IMMEDIATE);
       //WatchUi.switchToView(new WindPicker("dir"), new WindPickerDelegate("dir"), WatchUi.SLIDE_IMMEDIATE);

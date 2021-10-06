@@ -108,10 +108,11 @@ class MenuDelegate extends WatchUi.Menu2InputDelegate {
       Storage.setValue("wind_force", wind_force);
       wind_dir = data.get("wind").get("deg");
       Storage.setValue("wind_dir", wind_dir);
-      wind_color = Graphics.COLOR_BLUE;
+      wind_color = CONNECTED_COLOR;
       Storage.setValue("wind_color", wind_color);
       last_update = Time.now().value();
       Storage.setValue("last_update", last_update);
+      no_info_reason = "";
     } else {
       no_info_reason = "API request failed";
     }
@@ -129,7 +130,6 @@ class MenuDelegate extends WatchUi.Menu2InputDelegate {
       //                     new WindPickerDelegate("force"),
       //                     WatchUi.SLIDE_IMMEDIATE);
     } else if ( item.getId().equals("auto") ) {
-      no_info_reason = "";
       apikey = Properties.getValue("apikey");
       if (apikey.length() == 0) {
         no_info_reason = WatchUi.loadResource(Rez.Strings.error_apikey);
