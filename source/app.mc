@@ -22,7 +22,7 @@ using Toybox.Time;
 
 var wind_dir = 0;
 var wind_force = 0;
-var wind_color = Graphics.COLOR_BLACK;
+var wind_color = Graphics.COLOR_WHITE;
 var position;
 var no_info_reason = "";
 var last_update = null;

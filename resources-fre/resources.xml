@@ -17,18 +17,17 @@
     </setting>
   </settings>
 
-  <string id="menu_title">Paramétrer le vent</string>
+  <string id="menu_title">Régler le vent</string>
   <string id="manual_label">Manuellement</string>
   <string id="manual_sublabel">Entrer force &amp; vitesse</string>
   <string id="auto_label">Automatiquement</string>
   <string id="auto_sublabel">En utilisant le GPS &amp; internet</string>
 
-  <string id="no_wind_information">Vent inconnu</string>
   <string id="waiting_weather">Attente de la météo</string>
   <string id="waiting_position">Attente de la position</string>
-  <string id="error_weather">Météo indisponible</string>
-  <string id="error_position">Position indisponible</string>
+  <string id="error_weather">Météo inconnue</string>
+  <string id="error_position">Position inconnue</string>
   <string id="error_apikey">Mauvaise clef d'API</string>
-  <string id="error_set_wind">Paramétrez le vent</string>
+  <string id="error_set_wind">Vent inconnu</string>
   <string id="error_too_old">Information obsolète</string>
 </resources>

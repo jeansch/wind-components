@@ -44,13 +44,6 @@ class WindComponentsView extends WatchUi.View {
             Math.ceil(y - length * Math.cos(angle))];
   }
 
-  function draw_arcs(dc, pw) {
-    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-    dc.setPenWidth(pw);
-    dc.drawArc(cx, cy, radius, Graphics.ARC_CLOCKWISE, 250, 110);
-    dc.drawArc(cx, cy, radius, Graphics.ARC_CLOCKWISE, 70, 290);
-  }
-
   function draw_wind_arrow(dc, pw, color, wind_arrow, wind_force) {
     dc.setPenWidth(pw);
     dc.setColor(color, Graphics.COLOR_TRANSPARENT);
@@ -65,7 +58,7 @@ class WindComponentsView extends WatchUi.View {
       var barb_start = p2c(cx, cy, wind_arrow * (Math.PI / 180),
                            radius - (nb + 1) * (radius / 10));
       var barb_end = p2c(barb_start[0], barb_start[1],
-                         (wind_arrow * (Math.PI/180)) - (45 * (Math.PI/180)),
+                         (wind_arrow * (Math.PI/180)) - (60 * (Math.PI/180)),
                          radius / (barb_force > 5 ? 5 : 10));
       dc.drawLine(barb_start[0], barb_start[1], barb_end[0], barb_end[1]);
       barb_force -= 10;
@@ -94,18 +87,19 @@ class WindComponentsView extends WatchUi.View {
   }
 
   function components(dc, heading) {
-    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE);
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
     dc.clear();
-    draw_arcs(dc, 2);
     // Runway background
     dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
     dc.fillRectangle(size / 2 - (size / 10), 0,  2 * (size / 10), size);
+
     // Heading
     var top = heading * 180 / Math.PI;
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     dc.drawText(cx, size / 16, Graphics.FONT_TINY,
                 (top).format("%03d") + "°",
                 Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+
     // Runway current side
     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     dc.drawText(cx, size - 2 * (size / 10),
@@ -120,6 +114,7 @@ class WindComponentsView extends WatchUi.View {
     dc.fillRectangle(size / 2 - (size / 100) + 3 * (size / 100),
                      2 * (size / 100) + size - (size / 10) - (size / 20),
                      2 * (size / 100), size / 10);
+
     // Runway opposite side
     var bottom = top + 180;
     if (bottom > 359) {
@@ -140,13 +135,12 @@ class WindComponentsView extends WatchUi.View {
                      2 * (size / 10) - (size / 20),
                      2 * (size / 100), size / 10);
 
+
     if (no_info_reason.length() > 0) {
-      var message = WatchUi.loadResource(Rez.Strings.no_wind_information) +
-        "\n (" + no_info_reason + ")";
-      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
-      dc.fillRectangle(10, cy - 10, dc.getWidth() - 20, 20);
       dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_WHITE);
-      dc.drawText(cx, cy, Graphics.FONT_SMALL, message,
+      dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight() / 3);
+      dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_RED);
+      dc.drawText(cx, 20 + dc.getHeight() / 10, Graphics.FONT_SMALL, "!\n" + no_info_reason,
                   Graphics.TEXT_JUSTIFY_CENTER |
                   Graphics.TEXT_JUSTIFY_VCENTER);
       return;
@@ -172,7 +166,8 @@ class WindComponentsView extends WatchUi.View {
     dc.drawText((wind_arrow > 180 ? 0 : cx + (size / 16)) + 1 * (size / 20),
                 cy + (size / 20) ,
                 Graphics.FONT_SMALL,
-                "H: " + hspd.format("%0.1f") + "KT",
+                (hspd < 0 ? ("T: " + (-hspd).format("%0.1f")) :
+                 ("H: " + hspd.format("%0.1f"))) + "KT",
                 Graphics.TEXT_JUSTIFY_LEFT|Graphics.TEXT_JUSTIFY_VCENTER);
   }
 }

@@ -22,7 +22,6 @@
     <string id="auto_label">Automaticaly</string>
     <string id="auto_sublabel">Using GPS &amp; internet</string>
 
-    <string id="no_wind_information">No wind information</string>
     <string id="waiting_weather">Waiting for weather</string>
     <string id="waiting_position">Waiting for position</string>
     <string id="error_weather">Cannot get weather</string>
